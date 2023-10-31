@@ -1,3 +1,39 @@
-<p>
-  login works!
-</p>
+<article>
+  <h1>Shop test</h1>
+  <form (ngSubmit)="submit()">
+    <label for="email">
+      E-mail
+      <input
+        #email="ngModel"
+        [email]="true"
+        type="email"
+        id="email"
+        [(ngModel)]="login.email"
+        [attr.aria-invalid]="
+          email.invalid && !email.pristine ? true : undefined
+        "
+        name="email"
+        required
+      />
+    </label>
+    <label for="password">
+      Password
+      <input
+        #password="ngModel"
+        [attr.aria-invalid]="
+          password.invalid && !password.pristine ? true : undefined
+        "
+        type="password"
+        id="password"
+        [(ngModel)]="login.password"
+        name="password"
+        required
+      />
+    </label>
+    <input
+      type="submit"
+      [disabled]="email.invalid || password.invalid"
+      value="Log in"
+    />
+  </form>
+</article>
