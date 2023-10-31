@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 
 type LoginData = {
-  email: string | undefined;
+  username: string | undefined;
   password: string | undefined;
 };
 
@@ -12,7 +12,7 @@ type LoginData = {
 })
 export class LoginComponent {
   login: LoginData = {
-    email: "",
+    username: "",
     password: "",
   };
 

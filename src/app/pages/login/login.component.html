@@ -1,18 +1,17 @@
 <article>
   <h1>Shop test</h1>
   <form (ngSubmit)="submit()">
-    <label for="email">
-      E-mail
+    <label for="username">
+      Username
       <input
-        #email="ngModel"
-        [email]="true"
-        type="email"
-        id="email"
-        [(ngModel)]="login.email"
+        #username="ngModel"
+        type="text"
+        id="username"
+        [(ngModel)]="login.username"
         [attr.aria-invalid]="
-          email.invalid && !email.pristine ? true : undefined
+          username.invalid && !username.pristine ? true : undefined
         "
-        name="email"
+        name="username"
         required
       />
     </label>
@@ -32,7 +31,7 @@
     </label>
     <input
       type="submit"
-      [disabled]="email.invalid || password.invalid"
+      [disabled]="username.invalid || password.invalid"
       value="Log in"
     />
   </form>
