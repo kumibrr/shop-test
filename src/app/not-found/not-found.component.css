@@ -1,0 +1,10 @@
+div {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+h1 {
+  font-size: 4.5em;
+}
