@@ -11,6 +11,10 @@ import { NotFoundComponent } from "./not-found/not-found.component";
     BrowserModule,
     RouterModule.forRoot([
       {
+        path: "login",
+        loadChildren: "./pages/login/login.module#LoginModule",
+      },
+      {
         path: "**",
         component: NotFoundComponent,
       },
