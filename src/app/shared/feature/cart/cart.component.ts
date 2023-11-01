@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { Observable, forkJoin } from "rxjs";
+import { BehaviorSubject, Observable, forkJoin } from "rxjs";
 import { Cart } from "./model/cart";
 import { CartService } from "./data-access/cart.service";
 import { map, mergeMap, switchMap, tap } from "rxjs/operators";
@@ -13,6 +13,7 @@ import { ProductService } from "../../data-access/product/product.service";
 })
 export class CartComponent implements OnInit {
   cart$: Observable<Cart>;
+  total$: BehaviorSubject<number> = new BehaviorSubject(null);
   constructor(
     private route: ActivatedRoute,
     private carts: CartService,
@@ -37,7 +38,11 @@ export class CartComponent implements OnInit {
           }))
         );
       }),
-      tap(console.log)
+      tap((cart) =>
+        this.total$.next(
+          cart.products.reduce((acc, { price }) => acc + price, 0)
+        )
+      )
     );
   }
 }
