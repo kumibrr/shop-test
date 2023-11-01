@@ -26,20 +26,13 @@ import "@testing-library/cypress/add-commands";
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-declare global {
-  namespace Cypress {
-    interface Chainable {
-      standardLogin
-    }
-  }
-}
 
 Cypress.Commands.add("standardLogin", () => {
-  cy.session(() => {
+  cy.session("standard_login", () => {
     cy.visit("http://localhost:4200/login");
     cy.findByText("Username").click().type("mor_2314");
     cy.findByText("Password").click().type("83r5^_");
-    cy.get("form").contains("Log In").click();
-    cy.url().should("be", "/");
+    cy.get("form").contains("Log in").click();
+    cy.url().should("equal", "http://localhost:4200/");
   });
 });
