@@ -1,11 +1,8 @@
+import { Product } from "src/app/pages/products/model/product";
+
 export type Cart = {
   id: number;
   userId: number;
   date: string;
-  products: ProductSlice[];
+  products: Product[];
 };
-
-interface ProductSlice {
-  productId: number;
-  quantity: number;
-}

@@ -1,3 +1,8 @@
-<p>
-  cart works!
-</p>
+<table *ngIf="cart$ | async as cart">
+  <tr *ngFor="let product of cart.products">
+    <th scope="row">{{ product.id }}</th>
+    <td><img [src]="product.image" width="30px" height="40px" /></td>
+    <td>{{ product.title }}</td>
+    <td>{{ cart.products }}</td>
+  </tr>
+</table>
