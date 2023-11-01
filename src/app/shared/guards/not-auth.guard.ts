@@ -10,7 +10,7 @@ import { map, tap } from "rxjs/operators";
 export class NotAuthGuard implements CanActivate {
   constructor(private auth: AuthService, private router: Router) {}
   canActivate(): Observable<boolean> | Promise<boolean> | boolean {
-    return this.auth.getLoggedUser().pipe(
+    return this.auth.loggedUser$.pipe(
       map((user) => (user ? true : false)),
       tap((loggedIn) => {
         if (loggedIn) {
