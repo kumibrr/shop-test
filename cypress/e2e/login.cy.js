@@ -26,14 +26,8 @@ describe("login", () => {
     cy.url().should("include", "login");
   });
 
-  it.only("should not be able to visit /login if logged in", () => {
-    cy.session("standard_login", () => {
-      cy.visit("http://localhost:4200/login");
-      cy.findByText("Username").click().type("mor_2314");
-      cy.findByText("Password").click().type("83r5^_");
-      cy.get("form").contains("Log in").click();
-      cy.url().should("equal", "http://localhost:4200/");
-    });
+  it("should not be able to visit /login if logged in", () => {
+    cy.standardLogin();
     cy.visit("http://localhost:4200/login");
     cy.url().should("not.include", "login");
   });
