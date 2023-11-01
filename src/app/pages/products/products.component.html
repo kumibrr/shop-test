@@ -1,12 +1,17 @@
-<div>
-  <article *ngFor="let product of products$ | async">
+<div class="list">
+  <article
+    *ngFor="let item of products$ | async"
+    (click)="itemSelected(item.id)"
+  >
     <header class="title">
-      <h1>{{ product.title }}</h1>
+      <h1>{{ item.title }}</h1>
     </header>
     <header>
-      <img [src]="product.image" [alt]="'photo of ' + product.title" />
+      <img [src]="item.image" [alt]="'photo of ' + item.title" />
     </header>
-    body
-    <footer>footer</footer>
+    <h4>{{ item.price | currency : "EUR" }}</h4>
+    <footer>
+      <button (click)="$event.stopPropagation()">Add to cart</button>
+    </footer>
   </article>
 </div>
