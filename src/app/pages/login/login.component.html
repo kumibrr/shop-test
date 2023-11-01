@@ -1,0 +1,38 @@
+<article>
+  <h1>Shop test</h1>
+  <form (ngSubmit)="submit()">
+    <label for="username">
+      Username
+      <input
+        #username="ngModel"
+        type="text"
+        id="username"
+        [(ngModel)]="login.username"
+        [attr.aria-invalid]="
+          username.invalid && !username.pristine ? true : undefined
+        "
+        name="username"
+        required
+      />
+    </label>
+    <label for="password">
+      Password
+      <input
+        #password="ngModel"
+        [attr.aria-invalid]="
+          password.invalid && !password.pristine ? true : undefined
+        "
+        type="password"
+        id="password"
+        [(ngModel)]="login.password"
+        name="password"
+        required
+      />
+    </label>
+    <input
+      type="submit"
+      [disabled]="username.invalid || password.invalid"
+      value="Log in"
+    />
+  </form>
+</article>

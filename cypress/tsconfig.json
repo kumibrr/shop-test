@@ -3,6 +3,6 @@
   "include": ["**/*.cy.ts"],
   "compilerOptions": {
     "sourceMap": false,
-    "types": ["cypress", "@testing-library/cypress"]
+    "types": ["node"]
   }
 }

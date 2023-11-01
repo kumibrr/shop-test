@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+// /// <reference types="cypress" />
 import "@testing-library/cypress/add-commands";
 // ***********************************************
 // This example commands.ts shows you how to
@@ -26,13 +26,20 @@ import "@testing-library/cypress/add-commands";
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+declare global {
+  namespace Cypress {
+    interface Chainable {
+      standardLogin
+    }
+  }
+}
+
+Cypress.Commands.add("standardLogin", () => {
+  cy.session(() => {
+    cy.visit("http://localhost:4200/login");
+    cy.findByText("Username").click().type("mor_2314");
+    cy.findByText("Password").click().type("83r5^_");
+    cy.get("form").contains("Log In").click();
+    cy.url().should("be", "/");
+  });
+});
