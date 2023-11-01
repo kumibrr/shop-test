@@ -1,6 +1,5 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-
 import { AppComponent } from "./app.component";
 import { RouterModule } from "@angular/router";
 import { NotFoundComponent } from "./not-found/not-found.component";
@@ -18,6 +17,11 @@ import { NotAuthGuard } from "./shared/guards/not-auth.guard";
         path: "login",
         loadChildren: "./pages/login/login.module#LoginModule",
         canActivate: [NotAuthGuard],
+      },
+      {
+        path: "",
+        loadChildren: "./pages/products/products.module#ProductsModule",
+        canActivate: [AuthGuard],
       },
       {
         path: "**",
