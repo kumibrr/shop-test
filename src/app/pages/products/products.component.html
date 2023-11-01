@@ -1,5 +1,6 @@
 <div class="list">
   <article
+    aria-label="item"
     *ngFor="let item of products$ | async"
     (click)="itemSelected(item.id)"
   >
