@@ -2,7 +2,7 @@ import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
 import { AppComponent } from "./app.component";
 import { RouterModule } from "@angular/router";
-import { NotFoundComponent } from "./not-found/not-found.component";
+import { NotFoundComponent } from "./not-found.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "./shared/guards/auth.guard";
 import { NotAuthGuard } from "./shared/guards/not-auth.guard";
@@ -24,8 +24,12 @@ import { NotAuthGuard } from "./shared/guards/not-auth.guard";
         canActivate: [AuthGuard],
       },
       {
-        path: "**",
+        path: "404",
         component: NotFoundComponent,
+      },
+      {
+        path: "**",
+        redirectTo: "404",
       },
     ]),
   ],
