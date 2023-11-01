@@ -1,3 +1,12 @@
-<p>
-  products works!
-</p>
+<div>
+  <article *ngFor="let product of products$ | async">
+    <header class="title">
+      <h1>{{ product.title }}</h1>
+    </header>
+    <header>
+      <img [src]="product.image" [alt]="'photo of ' + product.title" />
+    </header>
+    body
+    <footer>footer</footer>
+  </article>
+</div>
