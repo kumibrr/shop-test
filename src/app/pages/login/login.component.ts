@@ -1,4 +1,6 @@
 import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { AuthService } from "src/app/shared/data-access/auth/auth.service";
 
 type LoginData = {
   username: string | undefined;
@@ -16,7 +18,14 @@ export class LoginComponent {
     password: "",
   };
 
-  submit(event) {
-    console.log(this.login);
+  constructor(private auth: AuthService, private router: Router) {}
+
+  submit() {
+    const { username, password } = this.login;
+    const subscription = this.auth.logIn(username, password).subscribe(() => {
+      this.router.navigate(["/"]).then(() => {
+        subscription.unsubscribe();
+      });
+    });
   }
 }
