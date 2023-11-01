@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { ProductsService } from "./data-access/products.service";
+import { ProductService } from "../../shared/data-access/product/product.service";
 import { Observable } from "rxjs";
 import { Product } from "./model/product";
 
@@ -11,7 +11,7 @@ import { Product } from "./model/product";
 export class ProductsComponent implements OnInit {
   products$: Observable<Product[]>;
 
-  constructor(private products: ProductsService) {}
+  constructor(private products: ProductService) {}
 
   ngOnInit() {
     this.products$ = this.products.getProducts();
