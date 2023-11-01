@@ -5,6 +5,8 @@ import { AppComponent } from "./app.component";
 import { RouterModule } from "@angular/router";
 import { NotFoundComponent } from "./not-found/not-found.component";
 import { HttpClientModule } from "@angular/common/http";
+import { AuthGuard } from "./shared/guards/auth.guard";
+import { NotAuthGuard } from "./shared/guards/not-auth.guard";
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -15,6 +17,7 @@ import { HttpClientModule } from "@angular/common/http";
       {
         path: "login",
         loadChildren: "./pages/login/login.module#LoginModule",
+        canActivate: [NotAuthGuard],
       },
       {
         path: "**",
