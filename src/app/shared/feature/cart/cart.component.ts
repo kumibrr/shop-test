@@ -23,8 +23,11 @@ export class CartComponent implements OnInit {
     this.cart$ = this.route.params.pipe(
       switchMap(({ id }) => this.carts.getCartByUserId(id)),
       mergeMap((cart) => {
-        const productObservables = cart.products.map(({ productId }) =>
-          this.products.getProductById(productId)
+        const productObservables = cart.products.map(
+          ({ productId, quantity }) =>
+            this.products
+              .getProductById(productId)
+              .pipe(map((product) => ({ ...product, quantity })))
         );
 
         return forkJoin(productObservables).pipe(
