@@ -1,0 +1,49 @@
+div {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+.title {
+  position: absolute;
+  border-radius: 0;
+  opacity: 0;
+  font-size: xx-large;
+  transition: opacity 100ms ease-out;
+}
+
+article:hover .title {
+  opacity: 0.8;
+  scale: 1;
+}
+
+article {
+  width: 300px;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+article header {
+  padding: 0;
+  width: 300px;
+}
+
+article header img {
+  background-color: white;
+}
+
+img {
+  aspect-ratio: 3/4;
+  height: 400px;
+  object-fit: contain;
+}
+
+button {
+  width: 100%;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+}
+
+footer {
+  padding: 0;
+}

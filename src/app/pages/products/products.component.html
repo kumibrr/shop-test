@@ -1,0 +1,18 @@
+<div class="list">
+  <article
+    aria-label="item"
+    *ngFor="let item of products$ | async"
+    (click)="itemSelected(item.id)"
+  >
+    <header class="title">
+      <h1>{{ item.title }}</h1>
+    </header>
+    <header>
+      <img [src]="item.image" [alt]="'photo of ' + item.title" />
+    </header>
+    <h4>{{ item.price | currency : "EUR" }}</h4>
+    <footer>
+      <button (click)="$event.stopPropagation()">Add to cart</button>
+    </footer>
+  </article>
+</div>
