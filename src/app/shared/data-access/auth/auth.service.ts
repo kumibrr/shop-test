@@ -1,38 +1,48 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { map, switchMap, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, of } from "rxjs";
+import { catchError, map, switchMap, tap } from "rxjs/operators";
 import { environment } from "src/environments/environment";
 import { User } from "../../model/user";
 import { jwtDecode } from "jwt-decode";
 import { UserService } from "../user/user.service";
 
 type LogInResponse = { token: string };
+type Token = { sub: number; user: string; iat: number };
 
 @Injectable({
   providedIn: "root",
 })
 export class AuthService {
-  private loggedUser$: BehaviorSubject<User> = new BehaviorSubject(null);
+  private token$: BehaviorSubject<string> = new BehaviorSubject(
+    (function () {
+      const token = localStorage.getItem("auth");
+      if (!token) {
+        return null;
+      }
+      return token;
+    })()
+  );
+
+  loggedUser$: Observable<User | boolean> = this.token$.pipe(
+    map((token) => jwtDecode<Token>(token)),
+    switchMap((payload) => this.user.getUserById(payload.sub)),
+    catchError(() => {
+      return of(false);
+    })
+  );
 
   constructor(private http: HttpClient, private user: UserService) {}
 
-  logIn(username: string, password: string): Observable<any> {
+  logIn(username: string, password: string): Observable<LogInResponse> {
     return this.http
       .post<LogInResponse>(`${environment.apiUrl}/auth/login`, {
         username,
         password,
       })
       .pipe(
-        map(({ token }) =>
-          jwtDecode<{ sub: number; user: string; iat: number }>(token)
-        ),
-        switchMap((payload) => this.user.getUserById(payload.sub)),
-        tap((user) => this.loggedUser$.next(user))
+        tap(({ token }) => localStorage.setItem("auth", token)),
+        tap(({ token }) => this.token$.next(token))
       );
-  }
-
-  getLoggedUser(): Observable<User> {
-    return this.loggedUser$.asObservable();
   }
 }
