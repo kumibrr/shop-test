@@ -1,48 +1,53 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { ActivatedRoute } from "@angular/router";
-import { BehaviorSubject, Observable, forkJoin } from "rxjs";
+import { BehaviorSubject, Observable, Subject, noop } from "rxjs";
 import { Cart } from "./model/cart";
 import { CartService } from "./data-access/cart.service";
-import { map, mergeMap, switchMap, tap } from "rxjs/operators";
-import { ProductService } from "../../data-access/product/product.service";
+import { switchMap, takeUntil, tap } from "rxjs/operators";
+import { Product } from "src/app/pages/products/model/product";
 
 @Component({
   selector: "app-cart",
   templateUrl: "./cart.component.html",
   styleUrls: ["./cart.component.css"],
 })
-export class CartComponent implements OnInit {
+export class CartComponent implements OnInit, OnDestroy {
   cart$: Observable<Cart>;
-  total$: BehaviorSubject<number> = new BehaviorSubject(null);
-  constructor(
-    private route: ActivatedRoute,
-    private carts: CartService,
-    private products: ProductService
-  ) {}
+  total$ = new BehaviorSubject<number>(null);
+  private readonly destroy$ = new Subject<boolean>();
 
-  ngOnInit() {
+  constructor(private route: ActivatedRoute, private carts: CartService) {}
+
+  ngOnInit(): void {
     this.cart$ = this.route.params.pipe(
       switchMap(({ id }) => this.carts.getCartByUserId(id)),
-      mergeMap((cart) => {
-        const productObservables = cart.products.map(
-          ({ productId, quantity }) =>
-            this.products
-              .getProductById(productId)
-              .pipe(map((product) => ({ ...product, quantity })))
-        );
-
-        return forkJoin(productObservables).pipe(
-          map((products) => ({
-            ...cart,
-            products: products,
-          }))
-        );
-      }),
-      tap((cart) =>
+      tap(({ products }) =>
         this.total$.next(
-          cart.products.reduce((acc, { price }) => acc + price, 0)
+          products.reduce(
+            (acc, { price, quantity }) => acc + price * quantity,
+            0
+          )
         )
       )
     );
+  }
+
+  updateQuantity(product: Product, quantity: string) {
+    this.carts
+      .updateItemQuantity(product.id, Number(quantity))
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(noop);
+  }
+
+  removeItem(id: number) {
+    this.carts
+      .removeItemFromCart(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(noop);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }
