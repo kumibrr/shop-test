@@ -1,3 +1,44 @@
-<p>
-  admin works!
-</p>
+<nav><button>Add new user</button></nav>
+<table>
+  <thead>
+    <tr>
+      <th scope="col">#</th>
+      <th scope="col">email</th>
+      <th scope="col">username</th>
+      <th scope="col">name</th>
+      <th scope="col">surname</th>
+      <th scope="col">phone</th>
+      <th scope="col">Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users$ | async">
+      <th scope="row">{{ user.id }}</th>
+      <td>{{ user.email }}</td>
+      <td>{{ user.username }}</td>
+      <td>{{ user.name?.firstname }}</td>
+      <td>{{ user.name?.lastname }}</td>
+      <td>{{ user.phone }}</td>
+      <td class="actions">
+        <button class="delete">🗑️</button>
+        <button
+          class="edit"
+          (click)="selectedUserId$.next(user.id); dialog.showModal()"
+        >
+          ✏️
+        </button>
+        <button class="cart">🛒</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<dialog #dialog>
+  <article>
+    <button (click)="dialog.close()">Close</button>
+    <app-cart
+      *ngIf="dialog.open && selectedUserId$ | async as selectedUserId"
+      [userId]="selectedUserId"
+    ></app-cart>
+  </article>
+</dialog>
