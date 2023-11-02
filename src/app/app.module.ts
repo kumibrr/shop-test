@@ -6,6 +6,7 @@ import { NotFoundComponent } from "./not-found.component";
 import { HttpClientModule } from "@angular/common/http";
 import { AuthGuard } from "./shared/guards/auth.guard";
 import { NotAuthGuard } from "./shared/guards/not-auth.guard";
+import { AdminGuard } from "./shared/guards/admin.guard";
 
 @NgModule({
   declarations: [AppComponent, NotFoundComponent],
@@ -22,6 +23,11 @@ import { NotAuthGuard } from "./shared/guards/not-auth.guard";
         path: "",
         loadChildren: "./pages/products/products.module#ProductsModule",
         canActivate: [AuthGuard],
+      },
+      {
+        path: "admin",
+        loadChildren: "./pages/admin/admin.module#AdminModule",
+        canActivate: [AdminGuard],
       },
       {
         path: "404",
