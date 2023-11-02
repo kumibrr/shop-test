@@ -4,5 +4,5 @@ export type Cart = {
   id: number;
   userId: number;
   date: string;
-  products: Array<Product & { quantity: number }>;
+  products: Product[];
 };
