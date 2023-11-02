@@ -12,7 +12,12 @@
         name="quantity"
         id="quantity"
         [value]="product.quantity"
-        (change)="updateQuantity(product, $event.target.value)"
+        (change)="
+          quantityChanged$.next({
+            id: product.id,
+            quantity: $event.target.value
+          })
+        "
         min="1"
       />
     </td>
