@@ -5,16 +5,7 @@ import { RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule.forChild([
-      {
-        path: ":id",
-        component: CartComponent,
-      },
-    ]),
-  ],
+  imports: [CommonModule, FormsModule],
   declarations: [CartComponent],
 })
 export class CartModule {}

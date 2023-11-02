@@ -13,10 +13,6 @@ import { CartModule } from "src/app/shared/feature/cart/cart.module";
         path: "",
         component: ProductsComponent,
       },
-      {
-        path: "cart",
-        loadChildren: "./../../shared/feature/cart/cart.module#CartModule",
-      },
     ]),
   ],
   declarations: [ProductsComponent],
