@@ -47,3 +47,9 @@ button {
 footer {
   padding: 0;
 }
+
+dialog article {
+  width: auto;
+  margin: auto;
+  padding: inherit;
+}

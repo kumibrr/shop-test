@@ -1,0 +1,32 @@
+<table *ngIf="cart$ | async as cart">
+  <tr *ngFor="let product of cart.products">
+    <button aria-label="remove item" (click)="removeItem(product.id)">
+      &#10006;
+    </button>
+    <th scope="row">{{ product.id }}</th>
+    <td><img [src]="product.image" width="30px" height="40px" /></td>
+    <td>{{ product.title }}</td>
+    <td>
+      <input
+        type="number"
+        name="quantity"
+        id="quantity"
+        [value]="product.quantity"
+        (change)="
+          quantityChanged$.next({
+            id: product.id,
+            quantity: $event.target.value
+          })
+        "
+        min="1"
+      />
+    </td>
+    <td aria-label="price">
+      {{ product.price * product.quantity | currency : "EUR" }}
+    </td>
+  </tr>
+</table>
+
+<p class="total" *ngIf="total$ | async as total">
+  total: {{ total | currency : "EUR" }}
+</p>
