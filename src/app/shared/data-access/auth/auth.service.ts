@@ -45,4 +45,9 @@ export class AuthService {
         tap(({ token }) => this.token$.next(token))
       );
   }
+
+  logOut() {
+    localStorage.removeItem("auth");
+    location.reload();
+  }
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { ProductService } from "../../shared/data-access/product/product.service";
-import { Observable, Subject } from "rxjs";
+import { Observable } from "rxjs";
 import { Product } from "./model/product";
 import { AuthService } from "src/app/shared/data-access/auth/auth.service";
 import { map } from "rxjs/operators";
@@ -15,7 +15,7 @@ export class ProductsComponent implements OnInit {
   userId$: Observable<number>;
   showDialog = false;
 
-  constructor(private products: ProductService, private auth: AuthService) {
+  constructor(private products: ProductService, public auth: AuthService) {
     this.userId$ = this.auth.loggedUser$.pipe(
       map((user) => {
         if (typeof user !== "boolean") {
