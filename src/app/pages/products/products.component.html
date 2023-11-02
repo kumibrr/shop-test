@@ -1,3 +1,4 @@
+<nav><button (click)="dialog.showModal()">shopping cart</button></nav>
 <div class="list">
   <article
     aria-label="item"
@@ -16,3 +17,10 @@
     </footer>
   </article>
 </div>
+
+<dialog #dialog>
+  <article>
+    <button (click)="dialog.close()">Close</button>
+    <app-cart [userId]="2"></app-cart>
+  </article>
+</dialog>

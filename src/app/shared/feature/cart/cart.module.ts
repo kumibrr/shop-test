@@ -7,5 +7,6 @@ import { FormsModule } from "@angular/forms";
 @NgModule({
   imports: [CommonModule, FormsModule],
   declarations: [CartComponent],
+  exports: [CartComponent],
 })
 export class CartModule {}
