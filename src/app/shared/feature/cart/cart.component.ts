@@ -1,9 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from "@angular/core";
-import { BehaviorSubject, Observable, Subject, noop, of } from "rxjs";
+import { BehaviorSubject, Observable, Subject, noop } from "rxjs";
 import { Cart } from "./model/cart";
 import { CartService } from "./data-access/cart.service";
 import { debounceTime, switchMap, takeUntil, tap } from "rxjs/operators";
-import { Product } from "src/app/pages/products/model/product";
 
 @Component({
   selector: "app-cart",

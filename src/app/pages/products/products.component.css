@@ -53,3 +53,8 @@ dialog article {
   margin: auto;
   padding: inherit;
 }
+
+.log-out {
+  background-color: crimson;
+  border: rgb(200, 19, 55);
+}
