@@ -15,6 +15,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   dialog$ = new BehaviorSubject<boolean>(false);
   private readonly destroy$ = new Subject<boolean>();
   usersBeingEdited$ = new BehaviorSubject<Array<User["id"]>>([]);
+  newUsers$ = new BehaviorSubject<Array<User["id"]>>([]);
   //TODO: user filter
   //TODO: user sort
 
@@ -30,6 +31,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   stopEditUser(id: User["id"]) {
+    if (this.newUsers$.value.includes(id)) {
+      this.newUsers$.next(this.newUsers$.value.filter((user) => user !== id));
+      this.deleteUser(id);
+    }
     this.usersBeingEdited$.next(
       this.usersBeingEdited$.value.filter((user) => user !== id)
     );
@@ -41,7 +46,9 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   createUser() {
-    this.userService.createEmptyUser();
+    const id = this.userService.createEmptyUser();
+    this.newUsers$.next([...this.newUsers$.value, id]);
+    this.usersBeingEdited$.next([...this.usersBeingEdited$.value, id]);
   }
 
   deleteUser(id: number) {
