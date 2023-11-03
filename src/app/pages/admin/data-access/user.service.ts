@@ -9,7 +9,7 @@ import { environment } from "src/environments/environment";
   providedIn: "root",
 })
 export class UserService {
-  users$ = new BehaviorSubject<User[]>(null);
+  private users$ = new BehaviorSubject<User[]>(null);
 
   constructor(private http: HttpClient) {}
 
@@ -27,5 +27,30 @@ export class UserService {
         this.users$.next(this.users$.value.filter((user) => user.id !== id));
       })
     );
+  }
+
+  createEmptyUser() {
+    const emptyUser: User = {
+      id: Math.floor(Math.random() * 999),
+      name: {
+        firstname: "",
+        lastname: "",
+      },
+      email: "",
+      password: "",
+      phone: "",
+      username: "",
+      address: {
+        city: "",
+        geolocation: {
+          lat: null,
+          long: null,
+        },
+        number: null,
+        street: "",
+        zipcode: null,
+      },
+    };
+    this.users$.next([...this.users$.value, emptyUser]);
   }
 }
