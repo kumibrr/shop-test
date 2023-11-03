@@ -60,4 +60,21 @@ describe("Cart", () => {
     cy.get("@row").findByText("€329.85").should("exist");
     cy.findByText("total: €393.85").should("exist");
   });
+
+  it("admin can view anyone's shopping cart", () => {
+    cy.adminLogin();
+    cy.intercept("https://fakestoreapi.com/users").as("loadUsers");
+    cy.intercept("https://fakestoreapi.com/carts/6").as("updateCart");
+    cy.visit("http://localhost:4200/admin");
+    cy.wait("@loadUsers");
+
+    cy.findByText("don@gmail.com").parent().as("row");
+    cy.get("@row").findByTitle("View user's shopping cart").click();
+    cy.findByText("SanDisk SSD PLUS 1TB Internal SSD - SATA III 6 Gb/s").should(
+      "exist"
+    );
+    cy.findByDisplayValue("3").type("{backspace}4{enter}");
+    cy.wait("@updateCart");
+    cy.findByText("€456.00").should("exist");
+  });
 });
