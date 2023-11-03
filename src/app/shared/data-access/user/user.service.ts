@@ -34,11 +34,15 @@ export class UserService {
   }
 
   submitNewUser({ id, ...user }: User) {
+    // The API seems to only return id 1 or 11. Weird behaviour but it's fine I guess.
     return this.http
       .post<{ id: number }>(`${environment.apiUrl}/users`, user)
       .pipe(
-        tap(({ id }) => {
-          this.users$.next([...this.users$.value, { ...user, id }]);
+        tap((newUserId) => {
+          this.users$.next([
+            ...this.users$.value.filter((user) => user.id !== id),
+            { ...user, id: newUserId.id },
+          ]);
         })
       );
   }
