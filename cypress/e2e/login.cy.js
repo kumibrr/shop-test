@@ -31,4 +31,16 @@ describe("login", () => {
     cy.visit("http://localhost:4200/login");
     cy.url().should("not.include", "login");
   });
+
+  it("should clear the password field if login is not correct", () => {
+    cy.visit("http://localhost:4200/login");
+    cy.intercept("https://fakestoreapi.com/auth/login").as("login");
+
+    cy.findByText("Username").click().type("username");
+    cy.findByText("Password").click().type("password");
+    cy.findByText("Log in").click();
+
+    cy.wait("@login");
+    cy.get("#password").should("be.empty");
+  });
 });
