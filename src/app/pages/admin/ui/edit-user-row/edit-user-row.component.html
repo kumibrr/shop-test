@@ -1,0 +1,215 @@
+<ng-container [formGroup]="form">
+  <th scope="row">{{ user.id }}</th>
+  <td>
+    <input
+      form="userForm"
+      type="text"
+      name="email"
+      id="email"
+      formControlName="email"
+      required
+      [attr.aria-invalid]="
+        form.controls['email'].invalid && !form.controls['email'].pristine
+          ? true
+          : undefined
+      "
+    />
+  </td>
+  <td>
+    <input
+      form="userForm"
+      type="text"
+      name="username"
+      id="username"
+      formControlName="username"
+      required
+      [attr.aria-invalid]="
+        form.controls['username'].invalid && !form.controls['username'].pristine
+          ? true
+          : undefined
+      "
+    />
+  </td>
+  <ng-container formGroupName="name">
+    <td>
+      <input
+        form="userForm"
+        type="text"
+        name="firstname"
+        id="firstname"
+        formControlName="firstname"
+        [attr.aria-invalid]="
+          form.controls['name'].controls['firstname'].invalid &&
+          !form.controls['name'].controls['firstname'].pristine
+            ? true
+            : undefined
+        "
+        required
+      />
+    </td>
+    <td>
+      <input
+        form="userForm"
+        type="text"
+        name="lastname"
+        id="lastname"
+        formControlName="lastname"
+        [attr.aria-invalid]="
+          form.controls['name'].controls['lastname'].invalid &&
+          !form.controls['name'].controls['lastname'].pristine
+            ? true
+            : undefined
+        "
+        required
+      />
+    </td>
+  </ng-container>
+  <td>
+    <input
+      form="userForm"
+      type="text"
+      name="phone"
+      id="phone"
+      formControlName="phone"
+      [attr.aria-invalid]="
+        form.controls['phone'].invalid && !form.controls['phone'].pristine
+          ? true
+          : undefined
+      "
+      required
+    />
+  </td>
+  <td class="address">
+    <button
+      title="Edit address"
+      (click)="dialog.showModal()"
+      [attr.aria-invalid]="form.controls['address'].invalid ? true : undefined"
+    >
+      🗺️
+    </button>
+  </td>
+  <td class="actions">
+    <button class="cancel" (click)="cancel.emit(user.id)" title="Cancel">
+      &#10006;
+    </button>
+    <button
+      [disabled]="form.invalid"
+      class="edit"
+      title="Apply"
+      (click)="submit.emit(form.value)"
+    >
+      ✔️
+    </button>
+  </td>
+  <dialog #dialog>
+    <article>
+      <button (click)="dialog.close()">Save address</button>
+      <form formGroupName="address">
+        <div class="grid">
+          <label for="street">
+            street
+            <input
+              id="street"
+              name="street"
+              type="text"
+              formControlName="street"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['street'].invalid &&
+                !form.controls['address'].controls['street'].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+          <label for="number">
+            number
+            <input
+              id="number"
+              name="number"
+              type="number"
+              formControlName="number"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['number'].invalid &&
+                !form.controls['address'].controls['number'].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+        </div>
+        <div class="grid">
+          <label for="city">
+            city
+            <input
+              id="city"
+              name="city"
+              type="text"
+              formControlName="city"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['city'].invalid &&
+                !form.controls['address'].controls['city'].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+          <label for="zipcode">
+            zipcode
+            <input
+              id="zipcode"
+              name="zipcode"
+              type="text"
+              formControlName="zipcode"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['zipcode'].invalid &&
+                !form.controls['address'].controls['zipcode'].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+        </div>
+        <div class="grid" formGroupName="geolocation">
+          <label for="latitude">
+            latitude
+            <input
+              id="latitude"
+              name="latitude"
+              type="text"
+              formControlName="latitude"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['geolocation'].controls[
+                  'latitude'
+                ].invalid &&
+                !form.controls['address'].controls['geolocation'].controls[
+                  'latitude'
+                ].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+          <label for="longitude">
+            longitude
+            <input
+              id="longitude"
+              name="longitude"
+              type="text"
+              formControlName="longitude"
+              [attr.aria-invalid]="
+                form.controls['address'].controls['geolocation'].controls[
+                  'longitude'
+                ].invalid &&
+                !form.controls['address'].controls['geolocation'].controls[
+                  'longitude'
+                ].pristine
+                  ? true
+                  : undefined
+              "
+            />
+          </label>
+        </div>
+      </form>
+    </article>
+  </dialog>
+</ng-container>

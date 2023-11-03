@@ -1,0 +1,12 @@
+table {
+  table-layout: fixed;
+}
+
+td.id,
+th.id {
+  width: 80px;
+}
+
+th.address {
+  width: 110px;
+}

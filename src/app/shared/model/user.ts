@@ -4,7 +4,7 @@ export type User = {
   username: string;
   password: string;
   name: {
-    fistname: string;
+    firstname: string;
     lastname: string;
   };
   address: Address;

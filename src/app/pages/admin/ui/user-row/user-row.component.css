@@ -1,0 +1,42 @@
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions button {
+  width: 60px;
+  height: 60px;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+button.cancel {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  background-color: pink;
+}
+button.edit {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+button.delete {
+  background-color: crimson;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+button.cart {
+  background-color: rgb(234, 225, 130);
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.address button {
+  background-color: transparent;
+  font-size: large;
+  margin: 0;
+}

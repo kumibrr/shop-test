@@ -1,9 +1,9 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, Observable, forkJoin } from "rxjs";
+import { BehaviorSubject, Observable, forkJoin, of } from "rxjs";
 import { environment } from "src/environments/environment";
 import { Cart } from "../model/cart";
-import { map, mergeMap, tap } from "rxjs/operators";
+import { map, mergeMap, switchMap, tap } from "rxjs/operators";
 import { Omit } from "src/app/shared/utils/omit";
 import { ProductService } from "src/app/shared/data-access/product/product.service";
 
@@ -43,6 +43,12 @@ export class CartService {
       .get<CartResponse[]>(`${environment.apiUrl}/carts/user/${id}`)
       .pipe(
         map((carts) => carts[0]),
+        switchMap((cart) => {
+          if (!cart) {
+            return this.createCart(id);
+          }
+          return of(cart);
+        }),
         tap((cart) => this.cartBehaviorSubject.next(cart)),
         map(() => this.cart$),
         mergeMap((r) => r)
@@ -77,5 +83,13 @@ export class CartService {
         products: products.filter((i) => i.productId !== id),
       })
       .pipe(tap((cart) => this.cartBehaviorSubject.next(cart)));
+  }
+
+  createCart(id: number): Observable<CartResponse> {
+    return this.http.post<CartResponse>(`${environment.apiUrl}/carts/`, {
+      date: new Date(),
+      products: [],
+      userId: id,
+    });
   }
 }
