@@ -11,10 +11,10 @@ import { takeUntil, tap } from "rxjs/operators";
 })
 export class AdminComponent implements OnInit, OnDestroy {
   users$: Observable<User[]>;
-  selectedUserCart$ = new BehaviorSubject<number>(1);
+  selectedUserCart$ = new BehaviorSubject<User["id"]>(1);
   dialog$ = new BehaviorSubject<boolean>(false);
   private readonly destroy$ = new Subject<boolean>();
-  usersBeingEdited$ = new BehaviorSubject<number[]>([]);
+  usersBeingEdited$ = new BehaviorSubject<Array<User["id"]>>([]);
   //TODO: user filter
   //TODO: user sort
 
@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit, OnDestroy {
     this.usersBeingEdited$.next([...this.usersBeingEdited$.value, id]);
   }
 
-  stopEditUser(id: number) {
+  stopEditUser(id: User["id"]) {
     this.usersBeingEdited$.next(
       this.usersBeingEdited$.value.filter((user) => user !== id)
     );
@@ -38,6 +38,10 @@ export class AdminComponent implements OnInit, OnDestroy {
   applyEditUser(user: User) {
     console.log(user);
     this.stopEditUser(user.id);
+  }
+
+  createUser() {
+    this.userService.createEmptyUser();
   }
 
   deleteUser(id: number) {
