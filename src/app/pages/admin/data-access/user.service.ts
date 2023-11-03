@@ -30,8 +30,15 @@ export class UserService {
   }
 
   createEmptyUser() {
+    //THIS IS UNDOUBTEDLY WRONG, THIS RANDOM ID SHOULD BE GIVEN BY THE SERVER
+    //AND IS A MASSIVE EXPLOIT IN ITS CURRENT FORM.
+    let randomId;
+    do {
+      randomId = Math.floor(Math.random() * 999);
+    } while (this.users$.value.includes(randomId));
+
     const emptyUser: User = {
-      id: Math.floor(Math.random() * 999),
+      id: randomId,
       name: {
         firstname: "",
         lastname: "",
@@ -52,5 +59,6 @@ export class UserService {
       },
     };
     this.users$.next([...this.users$.value, emptyUser]);
+    return emptyUser.id;
   }
 }
