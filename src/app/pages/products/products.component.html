@@ -24,6 +24,9 @@
 <dialog #dialog>
   <article>
     <button (click)="dialog.close()">Close</button>
-    <app-cart [userId]="2"></app-cart>
+    <app-cart
+      *ngIf="userId$ | async as userId; else loading"
+      [userId]="userId"
+    ></app-cart>
   </article>
 </dialog>
