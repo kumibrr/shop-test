@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from "@angular/core";
-import { UserService } from "./data-access/user.service";
+import { UserService } from "src/app/shared/data-access/user/user.service";
 import { BehaviorSubject, Observable, Subject, noop } from "rxjs";
 import { User } from "src/app/shared/model/user";
 import { takeUntil, tap } from "rxjs/operators";
@@ -41,7 +41,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   applyEditUser(user: User) {
-    console.log(user);
     this.stopEditUser(user.id);
   }
 
