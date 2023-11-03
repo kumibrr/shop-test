@@ -22,10 +22,15 @@ export class LoginComponent {
 
   submit() {
     const { username, password } = this.login;
-    const subscription = this.auth.logIn(username, password).subscribe(() => {
-      this.router.navigate(["/"]).then(() => {
-        subscription.unsubscribe();
-      });
+    const subscription = this.auth.logIn(username, password).subscribe({
+      next: () => {
+        this.router.navigate(["/"]).then(() => {
+          subscription.unsubscribe();
+        });
+      },
+      error: () => {
+        this.login.password = "";
+      },
     });
   }
 }
