@@ -2,34 +2,38 @@
 <table>
   <thead>
     <tr>
-      <th scope="col">#</th>
+      <th scope="col" class="id">#</th>
       <th scope="col">email</th>
       <th scope="col">username</th>
       <th scope="col">name</th>
       <th scope="col">surname</th>
       <th scope="col">phone</th>
-      <th scope="col">Actions</th>
+      <th scope="col" class="address">address</th>
+      <th scope="col">actions</th>
     </tr>
   </thead>
   <tbody>
-    <tr *ngFor="let user of users$ | async">
-      <th scope="row">{{ user.id }}</th>
-      <td>{{ user.email }}</td>
-      <td>{{ user.username }}</td>
-      <td>{{ user.name?.firstname }}</td>
-      <td>{{ user.name?.lastname }}</td>
-      <td>{{ user.phone }}</td>
-      <td class="actions">
-        <button class="delete">🗑️</button>
-        <button
-          class="edit"
-          (click)="selectedUserId$.next(user.id); dialog.showModal()"
-        >
-          ✏️
-        </button>
-        <button class="cart">🛒</button>
-      </td>
-    </tr>
+    <ng-container *ngFor="let user of users$ | async">
+      <ng-container
+        *ngIf="!(usersBeingEdited$ | async).includes(user.id); else edit"
+      >
+        <tr
+          app-user-row
+          [user]="user"
+          (edit)="editUser($event)"
+          (delete)="deleteUser($event)"
+          (viewCart)="selectedUserCart$.next($event); dialog.showModal()"
+        ></tr>
+      </ng-container>
+      <ng-template #edit>
+        <tr
+          app-edit-user-row
+          [user]="user"
+          (cancel)="stopEditUser($event)"
+          (submit)="applyEditUser($event)"
+        ></tr>
+      </ng-template>
+    </ng-container>
   </tbody>
 </table>
 
@@ -37,7 +41,7 @@
   <article>
     <button (click)="dialog.close()">Close</button>
     <app-cart
-      *ngIf="dialog.open && selectedUserId$ | async as selectedUserId"
+      *ngIf="dialog.open && selectedUserCart$ | async as selectedUserId"
       [userId]="selectedUserId"
     ></app-cart>
   </article>

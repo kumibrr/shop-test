@@ -1,34 +1,54 @@
-import {
-  Component,
-  ElementRef,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { UserService } from "./data-access/user.service";
 import { BehaviorSubject, Observable, Subject, noop } from "rxjs";
 import { User } from "src/app/shared/model/user";
-import { tap } from "rxjs/operators";
+import { takeUntil, tap } from "rxjs/operators";
 
 @Component({
   selector: "app-admin",
   templateUrl: "./admin.component.html",
   styleUrls: ["./admin.component.css"],
 })
-export class AdminComponent implements OnInit {
-  @ViewChild("dialog") dialog: ElementRef<HTMLDialogElement>;
-
+export class AdminComponent implements OnInit, OnDestroy {
   users$: Observable<User[]>;
-  selectedUserId$ = new BehaviorSubject<number>(1);
+  selectedUserCart$ = new BehaviorSubject<number>(1);
   dialog$ = new BehaviorSubject<boolean>(false);
+  private readonly destroy$ = new Subject<boolean>();
+  usersBeingEdited$ = new BehaviorSubject<number[]>([]);
+  //TODO: user filter
+  //TODO: user sort
 
   constructor(private userService: UserService) {}
 
   ngOnInit() {
     this.users$ = this.userService.getUsers();
-    this.users$.pipe(tap(console.log)).subscribe(noop);
-    this.selectedUserId$.pipe(tap(console.log)).subscribe(noop);
+    this.selectedUserCart$.pipe(takeUntil(this.destroy$)).subscribe(noop);
+  }
 
-    console.log(this.dialog.nativeElement);
+  editUser(id: number) {
+    this.usersBeingEdited$.next([...this.usersBeingEdited$.value, id]);
+  }
+
+  stopEditUser(id: number) {
+    this.usersBeingEdited$.next(
+      this.usersBeingEdited$.value.filter((user) => user !== id)
+    );
+  }
+
+  applyEditUser(user: User) {
+    console.log(user);
+    this.stopEditUser(user.id);
+  }
+
+  deleteUser(id: number) {
+    this.userService
+      .deleteUser(id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(noop);
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 }

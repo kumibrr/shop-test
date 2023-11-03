@@ -20,4 +20,12 @@ export class UserService {
       mergeMap((r) => r)
     );
   }
+
+  deleteUser(id: number) {
+    return this.http.delete(`${environment.apiUrl}/users/${id}`).pipe(
+      tap(() => {
+        this.users$.next(this.users$.value.filter((user) => user.id !== id));
+      })
+    );
+  }
 }

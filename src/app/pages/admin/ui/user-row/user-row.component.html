@@ -1,0 +1,62 @@
+<th scope="row">{{ user.id }}</th>
+<td>{{ user.email }}</td>
+<td>{{ user.username }}</td>
+<td>{{ user.name?.firstname }}</td>
+<td>{{ user.name?.lastname }}</td>
+<td>{{ user.phone }}</td>
+<td class="address"><button (click)="dialog.showModal()">🗺️</button></td>
+<td class="actions">
+  <button
+    class="delete"
+    title="Delete user"
+    (click)="this.delete.emit(user.id)"
+  >
+    🗑️
+  </button>
+  <button class="edit" title="Edit user" (click)="this.edit.emit(user.id)">
+    ✏️
+  </button>
+  <button
+    class="cart"
+    title="View user's shopping cart"
+    (click)="this.viewCart.emit(user.id)"
+  >
+    🛒
+  </button>
+</td>
+
+<dialog #dialog>
+  <article>
+    <button (click)="dialog.close()">Close</button>
+    <div class="grid">
+      <label for="street">
+        street
+        <input type="text" [value]="user.address.street" disabled />
+      </label>
+      <label for="number">
+        number
+        <input type="text" [value]="user.address.number" disabled />
+      </label>
+    </div>
+    <div class="grid">
+      <label for="city">
+        city
+        <input type="text" [value]="user.address.city" disabled />
+      </label>
+      <label for="zipcode">
+        zipcode
+        <input type="text" [value]="user.address.zipcode" disabled />
+      </label>
+    </div>
+    <div class="grid">
+      <label for="latitude">
+        latitude
+        <input type="text" [value]="user.address.geolocation.lat" disabled />
+      </label>
+      <label for="longitude">
+        longitude
+        <input type="text" [value]="user.address.geolocation.long" disabled />
+      </label>
+    </div>
+  </article>
+</dialog>
