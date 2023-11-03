@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.users$ = this.userService.getUsers().pipe(tap(console.log));
+    this.users$ = this.userService.getUsers();
     this.selectedUserCart$.pipe(takeUntil(this.destroy$)).subscribe(noop);
   }
 
