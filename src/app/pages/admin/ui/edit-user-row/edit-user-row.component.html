@@ -30,37 +30,40 @@
       "
     />
   </td>
-  <td>
-    <input
-      form="userForm"
-      type="text"
-      name="firstname"
-      id="firstname"
-      formControlName="firstname"
-      [attr.aria-invalid]="
-        form.controls['firstname'].invalid &&
-        !form.controls['firstname'].pristine
-          ? true
-          : undefined
-      "
-      required
-    />
-  </td>
-  <td>
-    <input
-      form="userForm"
-      type="text"
-      name="lastname"
-      id="lastname"
-      formControlName="lastname"
-      [attr.aria-invalid]="
-        form.controls['lastname'].invalid && !form.controls['lastname'].pristine
-          ? true
-          : undefined
-      "
-      required
-    />
-  </td>
+  <ng-container formGroupName="name">
+    <td>
+      <input
+        form="userForm"
+        type="text"
+        name="firstname"
+        id="firstname"
+        formControlName="firstname"
+        [attr.aria-invalid]="
+          form.controls['name'].controls['firstname'].invalid &&
+          !form.controls['name'].controls['firstname'].pristine
+            ? true
+            : undefined
+        "
+        required
+      />
+    </td>
+    <td>
+      <input
+        form="userForm"
+        type="text"
+        name="lastname"
+        id="lastname"
+        formControlName="lastname"
+        [attr.aria-invalid]="
+          form.controls['name'].controls['lastname'].invalid &&
+          !form.controls['name'].controls['lastname'].pristine
+            ? true
+            : undefined
+        "
+        required
+      />
+    </td>
+  </ng-container>
   <td>
     <input
       form="userForm"
@@ -157,15 +160,19 @@
             />
           </label>
         </div>
-        <div class="grid">
+        <div class="grid" formGroupName="geolocation">
           <label for="latitude">
             latitude
             <input
               type="text"
               formControlName="latitude"
               [attr.aria-invalid]="
-                form.controls['address'].controls['latitude'].invalid &&
-                !form.controls['address'].controls['latitude'].pristine
+                form.controls['address'].controls['geolocation'].controls[
+                  'latitude'
+                ].invalid &&
+                !form.controls['address'].controls['geolocation'].controls[
+                  'latitude'
+                ].pristine
                   ? true
                   : undefined
               "
@@ -177,8 +184,12 @@
               type="text"
               formControlName="longitude"
               [attr.aria-invalid]="
-                form.controls['address'].controls['longitude'].invalid &&
-                !form.controls['address'].controls['longitude'].pristine
+                form.controls['address'].controls['geolocation'].controls[
+                  'longitude'
+                ].invalid &&
+                !form.controls['address'].controls['geolocation'].controls[
+                  'longitude'
+                ].pristine
                   ? true
                   : undefined
               "

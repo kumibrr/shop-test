@@ -26,8 +26,13 @@ export class EditUserRowComponent implements OnInit {
         Validators.email,
       ]),
       username: new FormControl(this.user.username, Validators.required),
-      firstname: new FormControl(this.user.name.firstname, Validators.required),
-      lastname: new FormControl(this.user.name.lastname, Validators.required),
+      name: new FormGroup({
+        firstname: new FormControl(
+          this.user.name.firstname,
+          Validators.required
+        ),
+        lastname: new FormControl(this.user.name.lastname, Validators.required),
+      }),
       phone: new FormControl(this.user.phone, [
         Validators.required,
         Validators.pattern(
@@ -42,14 +47,16 @@ export class EditUserRowComponent implements OnInit {
           this.user.address.zipcode,
           Validators.required
         ),
-        latitude: new FormControl(
-          this.user.address.geolocation.lat,
-          Validators.required
-        ),
-        longitude: new FormControl(
-          this.user.address.geolocation.long,
-          Validators.required
-        ),
+        geolocation: new FormGroup({
+          latitude: new FormControl(
+            this.user.address.geolocation.lat,
+            Validators.required
+          ),
+          longitude: new FormControl(
+            this.user.address.geolocation.long,
+            Validators.required
+          ),
+        }),
       }),
     });
   }

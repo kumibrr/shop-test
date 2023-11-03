@@ -33,6 +33,29 @@ export class UserService {
     );
   }
 
+  submitNewUser({ id, ...user }: User) {
+    return this.http
+      .post<{ id: number }>(`${environment.apiUrl}/users`, user)
+      .pipe(
+        tap(({ id }) => {
+          this.users$.next([...this.users$.value, { ...user, id }]);
+        })
+      );
+  }
+
+  updateUser(user: User) {
+    return this.http
+      .put<User>(`${environment.apiUrl}/users/${user.id}`, user)
+      .pipe(
+        tap((user) =>
+          this.users$.next([
+            ...this.users$.value.filter((u) => u.id !== user.id),
+            user,
+          ])
+        )
+      );
+  }
+
   createEmptyUser() {
     //THIS IS UNDOUBTEDLY WRONG, THIS RANDOM ID SHOULD BE GIVEN BY THE SERVER
     //AND IS A MASSIVE EXPLOIT IN ITS CURRENT FORM.

@@ -22,7 +22,7 @@ export class AdminComponent implements OnInit, OnDestroy {
   constructor(private userService: UserService) {}
 
   ngOnInit() {
-    this.users$ = this.userService.getUsers();
+    this.users$ = this.userService.getUsers().pipe(tap(console.log));
     this.selectedUserCart$.pipe(takeUntil(this.destroy$)).subscribe(noop);
   }
 
@@ -33,7 +33,6 @@ export class AdminComponent implements OnInit, OnDestroy {
   stopEditUser(id: User["id"]) {
     if (this.newUsers$.value.includes(id)) {
       this.newUsers$.next(this.newUsers$.value.filter((user) => user !== id));
-      this.deleteUser(id);
     }
     this.usersBeingEdited$.next(
       this.usersBeingEdited$.value.filter((user) => user !== id)
@@ -41,6 +40,15 @@ export class AdminComponent implements OnInit, OnDestroy {
   }
 
   applyEditUser(user: User) {
+    if (this.newUsers$.value.includes(user.id)) {
+      this.userService
+        .submitNewUser(user)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(noop);
+    } else {
+      this.userService.updateUser(user).pipe().subscribe(noop);
+    }
+
     this.stopEditUser(user.id);
   }
 
