@@ -36,3 +36,16 @@ Cypress.Commands.add("standardLogin", () => {
     cy.url().should("equal", "http://localhost:4200/");
   });
 });
+
+Cypress.Commands.add("adminLogin", () => {
+  cy.session("admin_login", () => {
+    cy.visit("http://localhost:4200/login");
+    cy.intercept("https://fakestoreapi.com/auth/login").as("login");
+    cy.findByText("Username").click().type("johnd");
+    cy.findByText("Password").click().type("m38rmF$");
+    cy.get("form").contains("Log in").click();
+    cy.wait("@login");
+    cy.visit("http://localhost:4200/admin");
+    cy.url().should("equal", "http://localhost:4200/admin");
+  });
+});

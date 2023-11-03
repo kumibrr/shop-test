@@ -81,6 +81,7 @@
   </td>
   <td class="address">
     <button
+      title="Edit address"
       (click)="dialog.showModal()"
       [attr.aria-invalid]="form.controls['address'].invalid ? true : undefined"
     >
@@ -102,12 +103,14 @@
   </td>
   <dialog #dialog>
     <article>
-      <button (click)="dialog.close()">Close</button>
+      <button (click)="dialog.close()">Save address</button>
       <form formGroupName="address">
         <div class="grid">
           <label for="street">
             street
             <input
+              id="street"
+              name="street"
               type="text"
               formControlName="street"
               [attr.aria-invalid]="
@@ -121,6 +124,8 @@
           <label for="number">
             number
             <input
+              id="number"
+              name="number"
               type="number"
               formControlName="number"
               [attr.aria-invalid]="
@@ -136,6 +141,8 @@
           <label for="city">
             city
             <input
+              id="city"
+              name="city"
               type="text"
               formControlName="city"
               [attr.aria-invalid]="
@@ -149,6 +156,8 @@
           <label for="zipcode">
             zipcode
             <input
+              id="zipcode"
+              name="zipcode"
               type="text"
               formControlName="zipcode"
               [attr.aria-invalid]="
@@ -164,6 +173,8 @@
           <label for="latitude">
             latitude
             <input
+              id="latitude"
+              name="latitude"
               type="text"
               formControlName="latitude"
               [attr.aria-invalid]="
@@ -181,6 +192,8 @@
           <label for="longitude">
             longitude
             <input
+              id="longitude"
+              name="longitude"
               type="text"
               formControlName="longitude"
               [attr.aria-invalid]="
